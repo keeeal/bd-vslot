@@ -1,2 +1,2 @@
-# cq-v-slot
-A CadQuery library of v-slot extrusions
+# cq-extrusions
+A CadQuery library of extrusions

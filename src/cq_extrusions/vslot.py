@@ -1,8 +1,8 @@
-from cadquery import Workplane, Sketch
+from cadquery import Sketch, Workplane
 from cadquery.types import Real
 
 
-def _v_slot(sketch: Sketch, a: Real = 0) -> Sketch:
+def _vslot(sketch: Sketch, a: Real = 0) -> Sketch:
     return (
         sketch.parray(5.23, a, 0, 1)
         .trapezoid(11, 2.66, 45, angle=90, mode="s")
@@ -14,13 +14,13 @@ def _v_slot(sketch: Sketch, a: Real = 0) -> Sketch:
     )
 
 
-def v_slot_2020_profile(n: int = 1) -> Sketch:
+def profile(n: int = 1) -> Sketch:
     sketch = Sketch().rect(20 * n, 20).vertices().fillet(0.5)
-    sketch = _v_slot(sketch.reset().parray(10 * (n - 1), 0, 0, 1), a=0)
-    sketch = _v_slot(sketch.reset().parray(10 * (1 - n), 0, 0, 1), a=180)
+    sketch = _vslot(sketch.reset().parray(10 * (n - 1), 0, 0, 1), a=0)
+    sketch = _vslot(sketch.reset().parray(10 * (1 - n), 0, 0, 1), a=180)
     sketch = sketch.reset().rarray(20, 20, n, 1).circle(2.1, mode="s")
-    sketch = _v_slot(sketch.reset().rarray(20, 20, n, 1), a=90)
-    sketch = _v_slot(sketch.reset().rarray(20, 20, n, 1), a=270)
+    sketch = _vslot(sketch.reset().rarray(20, 20, n, 1), a=90)
+    sketch = _vslot(sketch.reset().rarray(20, 20, n, 1), a=270)
 
     if n > 1:
         sketch = (
@@ -34,8 +34,5 @@ def v_slot_2020_profile(n: int = 1) -> Sketch:
     return sketch
 
 
-def v_slot_2020_extrusion(length: Real, n: int = 1) -> Workplane:
-    return Workplane().placeSketch(v_slot_2020_profile(n)).extrude(length)
-
-
-show_object(v_slot_2020_extrusion(100, 3))
+def extrusion(length: Real, n: int = 1) -> Workplane:
+    return Workplane().placeSketch(profile(n)).extrude(length)

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cq-extrusions"
+version = "0.0.1"
+authors = [
+  { name="James Keal", email="james@keal.au" },
+]
+description = "A CadQuery library of extrusions"
+readme = "README.md"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "cadquery>=2.4.0",
+]
+
+[project.urls]
+Github = "https://github.com/keeeal/cq-extrusions"
