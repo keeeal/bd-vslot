@@ -28,6 +28,7 @@ docutils==0.20.1
     # via
     #   myst-parser
     #   sphinx
+    #   sphinx-rtd-theme
 ezdxf==1.2.0
     # via cadquery
 fonttools==4.51.0
@@ -103,7 +104,11 @@ sphinx==7.2.6
     # via
     #   cq-extrusions (pyproject.toml)
     #   myst-parser
+    #   sphinx-rtd-theme
+    #   sphinxcontrib-jquery
 sphinx-autodoc2==0.5.0
+    # via cq-extrusions (pyproject.toml)
+sphinx-rtd-theme==2.0.0
     # via cq-extrusions (pyproject.toml)
 sphinxcontrib-applehelp==1.0.8
     # via sphinx
@@ -111,6 +116,8 @@ sphinxcontrib-devhelp==1.0.6
     # via sphinx
 sphinxcontrib-htmlhelp==2.0.5
     # via sphinx
+sphinxcontrib-jquery==4.1
+    # via sphinx-rtd-theme
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
 sphinxcontrib-qthelp==1.0.7
