@@ -25,6 +25,7 @@ optional-dependencies.dev = [
   "myst-parser",
   "pytest",
   "sphinx-autodoc2",
+  "sphinx-rtd-theme",
   "sphinx",
 ]
 
