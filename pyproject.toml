@@ -18,6 +18,15 @@ classifiers = [
 dependencies = [
   "cadquery>=2.4.0",
 ]
+optional-dependencies.dev = [
+  "black",
+  "isort",
+  "mypy",
+  "myst-parser",
+  "pytest",
+  "sphinx-autodoc2",
+  "sphinx",
+]
 
 [project.urls]
 Github = "https://github.com/keeeal/cq-extrusions"
