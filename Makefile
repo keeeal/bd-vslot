@@ -14,5 +14,10 @@ lock:
 		--output-file requirements-dev.txt \
 		pyproject.toml
 
+# Build documentation
 docs:
 	sphinx-build -M html docs docs/_build
+
+# Remove files not under version control
+clean:
+	git clean -Xdf

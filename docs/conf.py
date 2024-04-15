@@ -15,8 +15,8 @@ release = '0.0.1'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "myst_parser",
     "autodoc2",
+    "myst_parser",
 ]
 autodoc2_packages = [
     "../src/cq_extrusions",
