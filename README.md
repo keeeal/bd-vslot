@@ -1,2 +1,2 @@
-# cq-extrusions
-A CadQuery library of extrusions
+# bd-extrusions
+A build123d library of extrusions

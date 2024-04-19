@@ -1,8 +1,23 @@
-.PHONY: lock docs
+.PHONY: install format test lock docs clean
 
 pip-compile-options = --quiet --upgrade --no-emit-index-url
 
-# Lock all requirements
+# Install package. Usage: make install [dev=true]
+install:
+	pip install --upgrade pip pip-tools
+	pip install -r requirements$(if $(dev),-dev,).txt
+	pip install -e .
+
+# Format code. Usage: make format [check=true]
+format:
+	isort $(if $(check),--check,) .
+	black $(if $(check),--check,) .
+
+# Run unit tests
+test:
+	pytest .
+
+# Lock requirements
 lock:
 	pip-compile \
 		$(pip-compile-options) \
