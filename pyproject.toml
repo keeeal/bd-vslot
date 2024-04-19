@@ -25,6 +25,8 @@ dev = [
   "isort",
   "mypy",
   "pytest",
+]
+docs = [
   "sphinx-rtd-theme",
   "sphinx",
 ]
