@@ -1,5 +1,3 @@
-name: Format
-
 on:
   push:
     branches:
@@ -7,8 +5,8 @@ on:
   pull_request:
 
 jobs:
-  check-formatting:
-    name: Check formatting
+  tests:
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -22,6 +20,6 @@ jobs:
       run: |
         make install dev=true
 
-    - name: Check formatting
+    - name: Run tests
       run: |
-        make format check=true
+        make test

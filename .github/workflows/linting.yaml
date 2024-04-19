@@ -1,5 +1,3 @@
-name: Test
-
 on:
   push:
     branches:
@@ -7,8 +5,8 @@ on:
   pull_request:
 
 jobs:
-  run-tests:
-    name: Run tests
+  linting:
+    name: Check linting
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -22,6 +20,6 @@ jobs:
       run: |
         make install dev=true
 
-    - name: Run tests
+    - name: Check linting
       run: |
-        make test
+        make lint

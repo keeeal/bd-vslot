@@ -1,7 +1,7 @@
 bd-extrusions
 =============
 
-A collection of extrusions modelled using the `Build123d`_ CAD library.
+A library of extrusions for `Build123d`_.
 
 #################
 Table of Contents
