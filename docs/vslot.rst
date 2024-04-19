@@ -1,7 +1,7 @@
 V-Slot
 ======
 
-.. autodoc2-object:: bd_extrusions.vslot
-
-    render_plugin = "rst"
-    no_index = true
+.. automodule:: bd_extrusions.vslot
+   :members:
+   :undoc-members:
+   :show-inheritance:

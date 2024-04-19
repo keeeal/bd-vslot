@@ -2,16 +2,22 @@
 
 pip-compile-options = --quiet --upgrade --no-emit-index-url
 
-# Install package. Usage: make install [dev=true]
+# Usage: make install [dev=true]
 install:
 	pip install --upgrade pip pip-tools
 	pip install -r requirements$(if $(dev),-dev,).txt
 	pip install -e .
 
-# Format code. Usage: make format [check=true]
+# Format code
 format:
-	isort $(if $(check),--check,) .
-	black $(if $(check),--check,) .
+	isort .
+	black .
+
+# Lint code
+lint:
+	isort --check .
+	black --check .
+	mypy .
 
 # Run unit tests
 test:

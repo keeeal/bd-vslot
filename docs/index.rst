@@ -1,7 +1,15 @@
-Welcome to bd-extrusions's documentation!
-=========================================
+bd-extrusions
+=============
+
+A collection of extrusions modelled using the `Build123d`_ CAD library.
+
+#################
+Table of Contents
+#################
 
 .. toctree::
+    :maxdepth: 2
 
     vslot
-    apidocs/index
+
+.. _Build123d: https://build123d.readthedocs.io/
