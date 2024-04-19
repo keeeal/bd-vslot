@@ -3,12 +3,12 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cq-extrusions"
+name = "bd-extrusions"
 version = "0.0.1"
 authors = [
   { name="James Keal", email="james@keal.au" },
 ]
-description = "A CadQuery library of extrusions"
+description = "A build123d library of extrusions"
 readme = "README.md"
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -16,18 +16,18 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 dependencies = [
-  "cadquery>=2.4.0",
+  "build123d>=0.5.0",
 ]
-optional-dependencies.dev = [
+
+[project.optional-dependencies]
+dev = [
   "black",
   "isort",
   "mypy",
-  "myst-parser",
   "pytest",
-  "sphinx-autodoc2",
   "sphinx-rtd-theme",
   "sphinx",
 ]
 
 [project.urls]
-Github = "https://github.com/keeeal/cq-extrusions"
+Github = "https://github.com/keeeal/bd-extrusions"
