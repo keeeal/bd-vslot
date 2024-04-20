@@ -3,12 +3,12 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bd-extrusions"
+name = "bd-vslot"
 version = "0.0.1"
 authors = [
   { name="James Keal", email="james@keal.au" },
 ]
-description = "A build123d library of extrusions"
+description = "A library of V-Slot linear rail components for build123d"
 readme = "README.md"
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -24,6 +24,7 @@ dev = [
   "black",
   "isort",
   "mypy",
+  "pip-tools",
   "pytest",
 ]
 docs = [
@@ -32,4 +33,4 @@ docs = [
 ]
 
 [project.urls]
-Github = "https://github.com/keeeal/bd-extrusions"
+Github = "https://github.com/keeeal/bd-vslot"

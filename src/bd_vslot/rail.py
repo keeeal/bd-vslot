@@ -9,7 +9,7 @@ from build123d.build_common import LocationList
 from build123d.topology import tuplify
 from numpy.typing import ArrayLike
 
-from bd_extrusions.utils.array import in_bounds
+from bd_vslot.utils.array import in_bounds
 
 
 class VSlotProfile(BaseSketchObject):
@@ -163,33 +163,35 @@ class VSlotProfile(BaseSketchObject):
         super().__init__(profile.sketch, rotation, align, mode)
 
     @classmethod
-    def box(cls, num_x_rails: int, num_y_rails: int) -> VSlotProfile:
+    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> VSlotProfile:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         return cls(array)
 
     @classmethod
-    def c_beam(cls, num_x_rails: int, num_y_rails: int) -> VSlotProfile:
+    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> VSlotProfile:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         array[1:-1, 1:] = False
         return cls(array)
 
 
-class VSlotExtrusion(BasePartObject):
+class VSlotRail(BasePartObject):
     def __init__(
         self,
-        array: ArrayLike,
         length: float,
+        num_x_rails: int = 1,
+        num_y_rails: int = 1,
+        c_beam: bool = False,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = (
-            Align.CENTER,
-            Align.CENTER,
-            Align.MIN,
-        ),
+        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(
             part=extrude(
-                VSlotProfile(array),
+                (
+                    VSlotProfile.c_beam(num_x_rails, num_y_rails)
+                    if c_beam
+                    else VSlotProfile.box(num_x_rails, num_y_rails)
+                ),
                 amount=length,
                 dir=(0, 0, 1),
             ),
@@ -197,16 +199,3 @@ class VSlotExtrusion(BasePartObject):
             align=align,
             mode=mode,
         )
-
-    @classmethod
-    def box(cls, num_x_rails: int, num_y_rails: int, length: float) -> VSlotExtrusion:
-        array = np.ones((num_x_rails, num_y_rails), dtype=bool)
-        return cls(array, length)
-
-    @classmethod
-    def c_beam(
-        cls, num_x_rails: int, num_y_rails: int, length: float
-    ) -> VSlotExtrusion:
-        array = np.ones((num_x_rails, num_y_rails), dtype=bool)
-        array[1:-1, 1:] = False
-        return cls(array, length)
