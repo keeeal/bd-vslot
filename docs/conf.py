@@ -1,6 +1,6 @@
 from datetime import date
 
-project = "bd-extrusions"
+project = "bd-vslot"
 release = "0.0.1"
 author = "James Keal"
 copyright = f"{date.today().year}, {author}"

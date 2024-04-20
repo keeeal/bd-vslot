@@ -1,12 +1,12 @@
-.PHONY: install format test lock docs clean
+.PHONY: install format lint test lock docs clean
 
-pip-compile-options = --quiet --upgrade --no-emit-index-url
-
-# Usage: make install [dev=true]
+# Usage: make install [dev=true][docs=true]
 install:
-	pip install --upgrade pip pip-tools
-	pip install -r requirements$(if $(dev),-dev,).txt
+	pip install --upgrade pip
+	pip install -r requirements.txt
 	pip install -e .
+	$(if $(dev),pip install -e .[dev])
+	$(if $(docs),pip install -e .[docs])
 
 # Format code
 format:
@@ -26,13 +26,10 @@ test:
 # Lock requirements
 lock:
 	pip-compile \
-		$(pip-compile-options) \
+		--quiet \
+		--upgrade \
+		--no-emit-index-url \
 		--output-file requirements.txt \
-		pyproject.toml
-	pip-compile \
-		$(pip-compile-options) \
-		--extra dev \
-		--output-file requirements-dev.txt \
 		pyproject.toml
 
 # Build documentation
