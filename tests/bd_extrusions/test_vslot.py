@@ -1,2 +1,2 @@
-def test_vslot_profile():
+def test_vslot():
     assert "works on my machine"
