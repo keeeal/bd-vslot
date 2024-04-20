@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="James Keal", email="james@keal.au" },
 ]
-description = "A build123d library of extrusions"
+description = "A library of V-Slot linear rail components for build123d"
 readme = "README.md"
 classifiers = [
   "Programming Language :: Python :: 3",

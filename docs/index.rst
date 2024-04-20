@@ -1,7 +1,7 @@
 bd-vslot
 =============
 
-A library of extrusions for `Build123d`_.
+A library of V-Slot linear rail components for `Build123d`_.
 
 #################
 Table of Contents
