@@ -12,7 +12,7 @@ from numpy.typing import ArrayLike
 from bd_vslot.utils.array import in_bounds
 
 
-class VSlotProfile(BaseSketchObject):
+class LinearRailProfile(BaseSketchObject):
     def __init__(
         self,
         array: ArrayLike,
@@ -163,18 +163,18 @@ class VSlotProfile(BaseSketchObject):
         super().__init__(profile.sketch, rotation, align, mode)
 
     @classmethod
-    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> VSlotProfile:
+    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> LinearRailProfile:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         return cls(array)
 
     @classmethod
-    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> VSlotProfile:
+    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> LinearRailProfile:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         array[1:-1, 1:] = False
         return cls(array)
 
 
-class VSlotRail(BasePartObject):
+class LinearRail(BasePartObject):
     def __init__(
         self,
         length: float,
@@ -185,17 +185,14 @@ class VSlotRail(BasePartObject):
         align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
         mode: Mode = Mode.ADD,
     ):
-        super().__init__(
-            part=extrude(
-                (
-                    VSlotProfile.c_beam(num_x_rails, num_y_rails)
-                    if c_beam
-                    else VSlotProfile.box(num_x_rails, num_y_rails)
-                ),
-                amount=length,
-                dir=(0, 0, 1),
-            ),
-            rotation=rotation,
-            align=align,
-            mode=mode,
-        )
+        with BuildPart() as rail:
+            with BuildSketch():
+                if c_beam:
+                    LinearRailProfile.c_beam(num_x_rails, num_y_rails)
+                else:
+                    LinearRailProfile.box(num_x_rails, num_y_rails)
+            extrude(amount=length)
+            RigidJoint("A", joint_location=Location((0, 0, length / 2), (0, 0, 0)))
+            RigidJoint("B", joint_location=Location((0, 0, -length / 2), (180, 0, 0)))
+
+        super().__init__(rail.part, rotation, align, mode)
