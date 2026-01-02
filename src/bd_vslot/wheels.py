@@ -51,7 +51,15 @@ class VSlot2020Wheel(Wheel):
         align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
-        super().__init__(23.9, 16, 10.2, 5.9, rotation, align, mode)
+        super().__init__(
+            outer_diameter=23.9,
+            inner_diameter=16,
+            outer_thickness=10.2,
+            inner_thickness=5.9,
+            rotation=rotation,
+            align=align,
+            mode=mode,
+        )
 
 
 class VSlot2020MiniWheel(Wheel):
@@ -68,4 +76,12 @@ class VSlot2020MiniWheel(Wheel):
         align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
-        super().__init__(15.2, 10, 8.8, 5.8, rotation, align, mode)
+        super().__init__(
+            outer_diameter=15.2,
+            inner_diameter=10,
+            outer_thickness=8.8,
+            inner_thickness=5.8,
+            rotation=rotation,
+            align=align,
+            mode=mode,
+        )
