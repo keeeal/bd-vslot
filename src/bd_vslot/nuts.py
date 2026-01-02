@@ -5,9 +5,17 @@ from bd_vslot.utils.typing import Align3D
 
 
 class VSlot2020SlidingTNut(BasePartObject):
+    """
+    Sliding T-nut compatible with 2020 V-Slot rails.
+
+    Args:
+        hole_radius (BoltSize | float): The radius of the hole for the bolt.
+    """
+
     def __init__(
         self,
         hole_radius: BoltSize | float,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,

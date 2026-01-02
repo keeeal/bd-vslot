@@ -11,9 +11,31 @@ from bd_vslot.utils.typing import Align2D, Align3D
 
 
 class VSlot2020RailProfile(BaseSketchObject):
+    """
+    A profile for 2020 V-Slot rails.
+
+    The profile is generated based on a 2D array where a True-like value
+    represents the presence of a rail at that position. For example, it is
+    possible to create a C-beam profile using the following array:
+
+        [[ 1,  1 ],
+         [ 1,  0 ],
+         [ 1,  0 ],
+         [ 1,  1 ]]
+
+    Any array position that is True-like and adjacent to a False-like position
+    will have the appropriate slot and cavity features subtracted to create
+    the correct V-Slot profile. True-like positions that are adjacent to other
+    True-like positions will be joined without slots.
+
+    Args:
+        array (ArrayLike): 2D boolean array representing the rail layout.
+    """
+
     def __init__(
         self,
         array: ArrayLike,
+        *,
         rotation: float = 0,
         align: Align2D = None,
         mode: Mode = Mode.ADD,
@@ -22,6 +44,7 @@ class VSlot2020RailProfile(BaseSketchObject):
         x, y = array.shape
 
         def _get(i: int, j: int) -> bool:
+            """Get the value at the given indices or False if out of bounds."""
             return in_bounds(array, i, j) and array[i, j]
 
         squares: list[Location] = []
@@ -154,23 +177,41 @@ class VSlot2020RailProfile(BaseSketchObject):
 
     @classmethod
     def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> Self:
+        """
+        Create a box-like V-Slot 2020 rail profile of the given dimensions.
+        """
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         return cls(array)
 
     @classmethod
     def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> Self:
+        """
+        Create a C-beam V-Slot 2020 rail profile of the given dimensions.
+        """
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         array[1:-1, 1:] = False
         return cls(array)
 
 
 class VSlot2020Rail(BasePartObject):
+    """
+    A 2020 V-Slot rail.
+
+    Args:
+        length (float): Length of the rail.
+        num_x_rails (int): Number of rails along the X-axis.
+        num_y_rails (int): Number of rails along the Y-axis.
+        c_beam (bool): Whether to create a C-beam profile. If False, a box-like
+            profile will be created.
+    """
+
     def __init__(
         self,
         length: float,
         num_x_rails: int = 1,
         num_y_rails: int = 1,
         c_beam: bool = False,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,

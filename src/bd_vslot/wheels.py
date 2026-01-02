@@ -4,12 +4,23 @@ from bd_vslot.utils.typing import Align3D
 
 
 class Wheel(BasePartObject):
+    """
+    Base class for creating wheels with specified dimensions.
+
+    Args:
+        outer_diameter (float): The outer diameter of the wheel.
+        inner_diameter (float): The diameter of the center hole.
+        outer_thickness (float): Thickness (axially) at the outer edge.
+        inner_thickness (float): Thickness (axially) at the inner edge.
+    """
+
     def __init__(
         self,
         outer_diameter: float,
         inner_diameter: float,
         outer_thickness: float,
         inner_thickness: float,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
@@ -27,8 +38,15 @@ class Wheel(BasePartObject):
 
 
 class VSlot2020Wheel(Wheel):
+    """
+    A common wheel used with 2020 V-Slot rails.
+
+    The axle should be positioned ~20 mm from the center of the V-Slot rail.
+    """
+
     def __init__(
         self,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
@@ -37,8 +55,15 @@ class VSlot2020Wheel(Wheel):
 
 
 class VSlot2020MiniWheel(Wheel):
+    """
+    A smaller wheel used with 2020 V-Slot rails.
+
+    The axle should be positioned ~15 mm from the center of the V-Slot rail.
+    """
+
     def __init__(
         self,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,

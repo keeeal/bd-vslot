@@ -7,12 +7,27 @@ from bd_vslot.utils.typing import Align2D, Align3D
 
 
 class VSlot2020EndCapProfile(BaseSketchObject):
+    """
+    An end cap profile for 2020 V-Slot rails.
+
+    Holes are spaced 20 mm apart to align with tapped holes in the ends of
+    the rails. The width and height are determined by the number of holes
+    specified along each axis.
+
+    Args:
+        num_x_holes (int): Number of holes (rails) along the X-axis.
+        num_y_holes (int): Number of holes (rails) along the Y-axis.
+        hole_radius (BoltSize | float): The radius of the holes for the bolts.
+        corner_radius (float): Filet radius for the corners of the end cap.
+    """
+
     def __init__(
         self,
         num_x_holes: int,
         num_y_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
+        *,
         rotation: float = 0,
         align: Align2D = None,
         mode: Mode = Mode.ADD,
@@ -36,6 +51,23 @@ class VSlot2020EndCapProfile(BaseSketchObject):
 
 
 class VSlot2020EndCap(BasePartObject):
+    """
+    An end cap for 2020 V-Slot rails.
+
+    Holes are spaced 20 mm apart to align with tapped holes in the ends of
+    the rails. The width and height are determined by the number of holes
+    specified along each axis.
+
+    Args:
+        thickness (float): Thickness of the end cap.
+        num_x_holes (int): Number of holes (rails) along the X-axis.
+        num_y_holes (int): Number of holes (rails) along the Y-axis.
+        hole_radius (BoltSize | float): The radius of the holes for the bolts.
+        corner_radius (float): Filet radius for the corners of the end cap.
+        chamfer_size (float | None): Size of chamfer on top edges. If None,
+            this will be half the thickness or 1.0 mm, whichever is smaller.
+    """
+
     def __init__(
         self,
         thickness: float,
@@ -44,6 +76,7 @@ class VSlot2020EndCap(BasePartObject):
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
         chamfer_size: float | None = None,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
@@ -69,12 +102,27 @@ class VSlot2020EndCap(BasePartObject):
 
 
 class BuildPlateProfile(BaseSketchObject):
+    """
+    A common build plate profile with a grid of mounting holes.
+
+    Holes are spaced 10 mm apart. The width and height are determined by the
+    number of holes specified along each axis. There is a 10 mm margin around
+    the holes.
+
+    Args:
+        num_x_holes (int): Number of holes along the X-axis.
+        num_y_holes (int): Number of holes along the Y-axis.
+        hole_radius (BoltSize | float): The radius of the holes for the bolts.
+        corner_radius (float): Filet radius for the corners of the plate.
+    """
+
     def __init__(
         self,
         num_x_holes: int,
         num_y_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
+        *,
         rotation: float = 0,
         align: Align2D = None,
         mode: Mode = Mode.ADD,
@@ -98,6 +146,21 @@ class BuildPlateProfile(BaseSketchObject):
 
 
 class BuildPlate(BasePartObject):
+    """
+    A common build plate with a grid of mounting holes.
+
+    Holes are spaced 10 mm apart. The width and height are determined by the
+    number of holes specified along each axis. There is a 10 mm margin around
+    the holes.
+
+    Args:
+        thickness (float): Thickness of the plate.
+        num_x_holes (int): Number of holes along the X-axis.
+        num_y_holes (int): Number of holes along the Y-axis.
+        hole_radius (BoltSize | float): The radius of the holes for the bolts.
+        corner_radius (float): Filet radius for the corners of the plate.
+    """
+
     def __init__(
         self,
         thickness: float,
@@ -105,6 +168,7 @@ class BuildPlate(BasePartObject):
         num_y_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
@@ -123,6 +187,22 @@ class BuildPlate(BasePartObject):
 
 
 class LPlate(BasePartObject):
+    """
+    An L-shaped plate (bracket) with a grid of mounting holes on each face.
+
+    Holes are spaced 10 mm apart. The width and height are determined by the
+    number of holes specified along each axis. There is a 10 mm margin around
+    the holes.
+
+    Args:
+        thickness (float): Thickness of the plate.
+        num_x_holes (int): Number of holes along the X-axis.
+        num_y_holes (int): Number of holes along the Y-axis.
+        num_z_holes (int): Number of holes along the Z-axis.
+        hole_radius (BoltSize | float): The radius of the holes for the bolts.
+        corner_radius (float): Filet radius for the corners of the plate.
+    """
+
     def __init__(
         self,
         thickness: float,
@@ -131,6 +211,7 @@ class LPlate(BasePartObject):
         num_z_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
+        *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
