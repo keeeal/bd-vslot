@@ -1,5 +1,7 @@
 from enum import Enum
 
+HOLE_TOLERANCE = 0.05
+
 
 class BoltSize(Enum):
     M3 = 1.5

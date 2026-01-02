@@ -1,20 +1,19 @@
-from typing import Union
-
 from build123d import *
 
-from bd_vslot.constants import BoltSize
+from bd_vslot.constants import HOLE_TOLERANCE, BoltSize
+from bd_vslot.utils.typing import Align3D
 
 
-class SlidingTNut(BasePartObject):
+class VSlot2020SlidingTNut(BasePartObject):
     def __init__(
         self,
-        hole_radius: Union[BoltSize, float],
+        hole_radius: BoltSize | float,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         if isinstance(hole_radius, BoltSize):
-            hole_radius = hole_radius.value + 0.05
+            hole_radius = hole_radius.value + HOLE_TOLERANCE
 
         with BuildPart() as nut:
             with BuildSketch(Plane.YZ):

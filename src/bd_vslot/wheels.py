@@ -1,17 +1,17 @@
-from typing import Union
-
 from build123d import *
+
+from bd_vslot.utils.typing import Align3D
 
 
 class Wheel(BasePartObject):
     def __init__(
         self,
-        outer_diameter: float = 23.9,
-        inner_diameter: float = 5,
-        outer_thickness: float = 10.25,
-        inner_thickness: float = 10.25,
+        outer_diameter: float,
+        inner_diameter: float,
+        outer_thickness: float,
+        inner_thickness: float,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         outer_radius = outer_diameter / 2
@@ -26,21 +26,21 @@ class Wheel(BasePartObject):
         super().__init__(wheel.part, rotation, align, mode)
 
 
-class VWheel(Wheel):
+class VSlot2020Wheel(Wheel):
     def __init__(
         self,
         rotation: RotationLike = (0, 0, 0),
-        align: Align | tuple[Align, Align, Align] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(23.9, 16, 10.2, 5.9, rotation, align, mode)
 
 
-class MiniVWheel(Wheel):
+class VSlot2020MiniWheel(Wheel):
     def __init__(
         self,
         rotation: RotationLike = (0, 0, 0),
-        align: Align | tuple[Align, Align, Align] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(15.2, 10, 8.8, 5.8, rotation, align, mode)

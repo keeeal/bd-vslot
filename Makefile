@@ -8,15 +8,13 @@ install:
 	$(if $(dev),pip install -e .[dev])
 	$(if $(docs),pip install -e .[docs])
 
-# Format code
+# Usage: make format [check=true]
 format:
-	isort .
-	black .
+	isort $(if $(check),--check,) .
+	black $(if $(check),--check,) .
 
-# Lint code
+# Type checking
 lint:
-	isort --check .
-	black --check .
 	mypy .
 
 # Run unit tests

@@ -1,6 +1,6 @@
-from typing import Union
-
 from build123d import *
+
+from bd_vslot.utils.typing import Align3D
 
 
 class Bearing(BasePartObject):
@@ -10,7 +10,7 @@ class Bearing(BasePartObject):
         inner_diameter: float,
         thickness: float,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         outer_radius = outer_diameter / 2
@@ -40,7 +40,7 @@ class Bearing625(Bearing):
     def __init__(
         self,
         rotation: RotationLike = (0, 0, 0),
-        align: Align | tuple[Align, Align, Align] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(16, 5, 5, rotation, align, mode)
@@ -50,7 +50,7 @@ class Bearing688(Bearing):
     def __init__(
         self,
         rotation: RotationLike = (0, 0, 0),
-        align: Align | tuple[Align, Align, Align] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(16, 8, 5, rotation, align, mode)
@@ -60,7 +60,7 @@ class Bearing105(Bearing):
     def __init__(
         self,
         rotation: RotationLike = (0, 0, 0),
-        align: Align | tuple[Align, Align, Align] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         super().__init__(10, 5, 4, rotation, align, mode)

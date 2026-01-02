@@ -1,37 +1,25 @@
-from __future__ import annotations
-
 from itertools import product
-from typing import Union
+from typing import Self
 
 import numpy as np
 from build123d import *
 from build123d.build_common import LocationList
-from build123d.topology import tuplify
 from numpy.typing import ArrayLike
 
 from bd_vslot.utils.array import in_bounds
+from bd_vslot.utils.typing import Align2D, Align3D
 
 
-class LinearRailProfile(BaseSketchObject):
+class VSlot2020RailProfile(BaseSketchObject):
     def __init__(
         self,
         array: ArrayLike,
         rotation: float = 0,
-        align: Union[Align, tuple[Align, Align]] = Align.CENTER,
+        align: Align2D = None,
         mode: Mode = Mode.ADD,
     ):
         array = np.asarray(array, dtype=bool)
         x, y = array.shape
-        size = 20 * x, 20 * y
-        align = tuplify(align, 2)
-        offset = []
-        for i in range(2):
-            if align[i] == Align.MIN:
-                offset.append(0.0)
-            elif align[i] == Align.CENTER:
-                offset.append(-size[i] / 2)
-            elif align[i] == Align.MAX:
-                offset.append(-size[i])
 
         def _get(i: int, j: int) -> bool:
             return in_bounds(array, i, j) and array[i, j]
@@ -50,8 +38,10 @@ class LinearRailProfile(BaseSketchObject):
                 continue
             if all(map(_get, (i + 1, i, i - 1, i), (j, j + 1, j, j - 1))):
                 continue
-            translation = Vector(20 * i + offset[0], 20 * j + offset[1])
+
+            translation = Vector(20 * i, 20 * j)
             squares.append(Location(translation))
+
             for n, (di, dj) in enumerate(((1, 0), (0, 1), (-1, 0), (0, -1))):
                 location = Location(translation, 90 * n)
                 if _get(i + di, j + dj):
@@ -163,18 +153,18 @@ class LinearRailProfile(BaseSketchObject):
         super().__init__(profile.sketch, rotation, align, mode)
 
     @classmethod
-    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> LinearRailProfile:
+    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> Self:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         return cls(array)
 
     @classmethod
-    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> LinearRailProfile:
+    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> Self:
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         array[1:-1, 1:] = False
         return cls(array)
 
 
-class LinearRail(BasePartObject):
+class VSlot2020Rail(BasePartObject):
     def __init__(
         self,
         length: float,
@@ -182,16 +172,17 @@ class LinearRail(BasePartObject):
         num_y_rails: int = 1,
         c_beam: bool = False,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
         with BuildPart() as rail:
             with BuildSketch():
                 if c_beam:
-                    LinearRailProfile.c_beam(num_x_rails, num_y_rails)
+                    VSlot2020RailProfile.c_beam(num_x_rails, num_y_rails)
                 else:
-                    LinearRailProfile.box(num_x_rails, num_y_rails)
+                    VSlot2020RailProfile.box(num_x_rails, num_y_rails)
             extrude(amount=length)
+
             RigidJoint("A", joint_location=Location((0, 0, length / 2), (0, 0, 0)))
             RigidJoint("B", joint_location=Location((0, 0, -length / 2), (180, 0, 0)))
 
