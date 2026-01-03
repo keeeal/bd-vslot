@@ -31,7 +31,7 @@ lock:
 		pyproject.toml
 
 screenshots:
-	python docs/screenshots.py
+	python docs/save_screenshots.py
 
 # Build documentation
 docs:

@@ -1,3 +1,5 @@
+# Parameters Used for generating test parts and documentation screenshots
+
 Bearing:
   outer_diameter: 20.0
   inner_diameter: 10.0

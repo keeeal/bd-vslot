@@ -3,6 +3,7 @@
 
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import Any
 
 import yaml
 from ocp_vscode import save_screenshot, show  # type: ignore[import-untyped]
@@ -15,7 +16,7 @@ def save_screenshots(
     output: Path,
 ):
     with open(config) as f:
-        data = yaml.safe_load(f)
+        data: dict[str, dict[str, Any]] = yaml.safe_load(f)
 
     output.mkdir(parents=True, exist_ok=True)
 
@@ -28,7 +29,7 @@ def save_screenshots(
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
-        "-c", "--config", type=Path, default=Path("docs/screenshots.yaml")
+        "-c", "--config", type=Path, default=Path("src/bd_vslot/config/parts.yaml")
     )
     parser.add_argument("-o", "--output", type=Path, default=Path("docs/screenshots"))
     save_screenshots(**vars(parser.parse_args()))
