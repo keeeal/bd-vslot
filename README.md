@@ -5,3 +5,15 @@
 [![tests](https://github.com/keeeal/bd-vslot/actions/workflows/tests.yaml/badge.svg)](https://github.com/keeeal/bd-vslot/actions/workflows/tests.yaml)
 
 A library of V-Slot linear rail components for [Build123d](https://build123d.readthedocs.io/).
+
+## Installation
+
+You can install bd-vslot via pip:
+
+```bash
+pip install bd-vslot
+```
+
+## Documentation
+
+The documentation for bd-vslot is available at [https://bd-vslot.readthedocs.io/](https://bd-vslot.readthedocs.io/).

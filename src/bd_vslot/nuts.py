@@ -8,8 +8,7 @@ class VSlot2020SlidingTNut(BasePartObject):
     """
     Sliding T-nut compatible with 2020 V-Slot rails.
 
-    Args:
-        hole_radius (BoltSize | float): The radius of the hole for the bolt.
+    :param hole_radius: The radius of the hole for the bolt.
     """
 
     def __init__(

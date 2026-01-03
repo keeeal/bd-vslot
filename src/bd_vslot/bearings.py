@@ -7,10 +7,9 @@ class Bearing(BasePartObject):
     """
     Base class for creating bearings with specified dimensions.
 
-    Args:
-        outer_diameter (float): The outer diameter of the bearing.
-        inner_diameter (float): The diameter of the center hole.
-        thickness (float): Thickness in the axial direction.
+    :param outer_diameter: The outer diameter of the bearing.
+    :param inner_diameter: The diameter of the center hole.
+    :param thickness: Thickness in the axial direction.
     """
 
     def __init__(

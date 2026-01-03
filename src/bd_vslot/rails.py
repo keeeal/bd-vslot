@@ -12,11 +12,13 @@ from bd_vslot.utils.typing import Align2D, Align3D
 
 class VSlot2020RailProfile(BaseSketchObject):
     """
-    A profile for 2020 V-Slot rails.
+    Used to generate arbitrary shaped profiles for 2020 V-Slot rails.
 
     The profile is generated based on a 2D array where a True-like value
-    represents the presence of a rail at that position. For example, it is
-    possible to create a C-beam profile using the following array:
+    represents the presence of a rail at that grid position. For example,
+    it is possible to create a C-beam profile using the following array:
+
+    .. code-block:: python
 
         [[ 1,  1 ],
          [ 1,  0 ],
@@ -28,8 +30,7 @@ class VSlot2020RailProfile(BaseSketchObject):
     the correct V-Slot profile. True-like positions that are adjacent to other
     True-like positions will be joined without slots.
 
-    Args:
-        array (ArrayLike): 2D boolean array representing the rail layout.
+    :param array: 2D boolean array representing the rail layout.
     """
 
     def __init__(
@@ -197,12 +198,11 @@ class VSlot2020Rail(BasePartObject):
     """
     A 2020 V-Slot rail.
 
-    Args:
-        length (float): Length of the rail.
-        num_x_rails (int): Number of rails along the X-axis.
-        num_y_rails (int): Number of rails along the Y-axis.
-        c_beam (bool): Whether to create a C-beam profile. If False, a box-like
-            profile will be created.
+    :param length: Length of the rail.
+    :param num_x_rails: Number of rails along the X-axis.
+    :param num_y_rails: Number of rails along the Y-axis.
+    :param c_beam: Whether to create a C-beam profile. If False,
+        a box-like profile will be created. Default: False.
     """
 
     def __init__(
@@ -224,7 +224,7 @@ class VSlot2020Rail(BasePartObject):
                     VSlot2020RailProfile.box(num_x_rails, num_y_rails)
             extrude(amount=length)
 
-            RigidJoint("A", joint_location=Location((0, 0, length / 2), (0, 0, 0)))
-            RigidJoint("B", joint_location=Location((0, 0, -length / 2), (180, 0, 0)))
+            RigidJoint("A", joint_location=Location((0, 0, length), (0, 0, 0)))
+            RigidJoint("B", joint_location=Location((0, 0, 0), (180, 0, 0)))
 
         super().__init__(rail.part, rotation, align, mode)

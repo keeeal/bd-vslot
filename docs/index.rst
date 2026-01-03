@@ -10,6 +10,10 @@ Table of Contents
 .. toctree::
     :maxdepth: 2
 
-    rail
+    bearings
+    nuts
+    plates
+    rails
+    wheels
 
 .. _Build123d: https://build123d.readthedocs.io/

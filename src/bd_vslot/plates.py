@@ -14,11 +14,10 @@ class VSlot2020EndCapProfile(BaseSketchObject):
     the rails. The width and height are determined by the number of holes
     specified along each axis.
 
-    Args:
-        num_x_holes (int): Number of holes (rails) along the X-axis.
-        num_y_holes (int): Number of holes (rails) along the Y-axis.
-        hole_radius (BoltSize | float): The radius of the holes for the bolts.
-        corner_radius (float): Filet radius for the corners of the end cap.
+    :param num_x_holes: Number of holes (rails) along the X-axis.
+    :param num_y_holes: Number of holes (rails) along the Y-axis.
+    :param hole_radius: The radius of the holes for the bolts.
+    :param corner_radius: Filet radius for the corners of the end cap.
     """
 
     def __init__(
@@ -58,14 +57,12 @@ class VSlot2020EndCap(BasePartObject):
     the rails. The width and height are determined by the number of holes
     specified along each axis.
 
-    Args:
-        thickness (float): Thickness of the end cap.
-        num_x_holes (int): Number of holes (rails) along the X-axis.
-        num_y_holes (int): Number of holes (rails) along the Y-axis.
-        hole_radius (BoltSize | float): The radius of the holes for the bolts.
-        corner_radius (float): Filet radius for the corners of the end cap.
-        chamfer_size (float | None): Size of chamfer on top edges. If None,
-            this will be half the thickness or 1.0 mm, whichever is smaller.
+    :param thickness: Thickness of the end cap.
+    :param num_x_holes: Number of holes (rails) along the X-axis.
+    :param num_y_holes: Number of holes (rails) along the Y-axis.
+    :param hole_radius: The radius of the holes for the bolts.
+    :param corner_radius: Filet radius for the corners of the end cap.
+    :param chamfer_size: Size of chamfer on top edges of the end cap.
     """
 
     def __init__(
@@ -75,15 +72,12 @@ class VSlot2020EndCap(BasePartObject):
         num_y_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
-        chamfer_size: float | None = None,
+        chamfer_size: float = 0,
         *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
-        if chamfer_size is None:
-            chamfer_size = min(thickness / 2, 1.0)
-
         with BuildPart() as plate:
             with BuildSketch():
                 VSlot2020EndCapProfile(
@@ -93,10 +87,12 @@ class VSlot2020EndCap(BasePartObject):
                     corner_radius,
                 )
             extrude(amount=thickness)
-            chamfer(
-                plate.edges().filter_by(GeomType.LINE).group_by(Axis.Z)[-1],
-                chamfer_size,
-            )
+
+            if chamfer_size > 0:
+                chamfer(
+                    plate.edges().filter_by(GeomType.LINE).group_by(Axis.Z)[-1],
+                    chamfer_size,
+                )
 
         super().__init__(plate.part, rotation, align, mode)
 
@@ -109,11 +105,10 @@ class BuildPlateProfile(BaseSketchObject):
     number of holes specified along each axis. There is a 10 mm margin around
     the holes.
 
-    Args:
-        num_x_holes (int): Number of holes along the X-axis.
-        num_y_holes (int): Number of holes along the Y-axis.
-        hole_radius (BoltSize | float): The radius of the holes for the bolts.
-        corner_radius (float): Filet radius for the corners of the plate.
+    :param num_x_holes: Number of holes along the X-axis.
+    :param num_y_holes: Number of holes along the Y-axis.
+    :param hole_radius: The radius of the holes for the bolts.
+    :param corner_radius: Filet radius for the corners of the plate.
     """
 
     def __init__(
@@ -153,12 +148,11 @@ class BuildPlate(BasePartObject):
     number of holes specified along each axis. There is a 10 mm margin around
     the holes.
 
-    Args:
-        thickness (float): Thickness of the plate.
-        num_x_holes (int): Number of holes along the X-axis.
-        num_y_holes (int): Number of holes along the Y-axis.
-        hole_radius (BoltSize | float): The radius of the holes for the bolts.
-        corner_radius (float): Filet radius for the corners of the plate.
+    :param thickness: Thickness of the plate.
+    :param num_x_holes: Number of holes along the X-axis.
+    :param num_y_holes: Number of holes along the Y-axis.
+    :param hole_radius: The radius of the holes for the bolts.
+    :param corner_radius: Filet radius for the corners of the plate.
     """
 
     def __init__(
@@ -168,6 +162,7 @@ class BuildPlate(BasePartObject):
         num_y_holes: int,
         hole_radius: BoltSize | float,
         corner_radius: float = 0,
+        chamfer_size: float = 0,
         *,
         rotation: RotationLike = (0, 0, 0),
         align: Align3D = None,
@@ -183,6 +178,12 @@ class BuildPlate(BasePartObject):
                 )
             extrude(amount=thickness)
 
+            if chamfer_size > 0:
+                chamfer(
+                    plate.edges().filter_by(GeomType.LINE).group_by(Axis.Z)[-1],
+                    chamfer_size,
+                )
+
         super().__init__(plate.part, rotation, align, mode)
 
 
@@ -194,13 +195,12 @@ class LPlate(BasePartObject):
     number of holes specified along each axis. There is a 10 mm margin around
     the holes.
 
-    Args:
-        thickness (float): Thickness of the plate.
-        num_x_holes (int): Number of holes along the X-axis.
-        num_y_holes (int): Number of holes along the Y-axis.
-        num_z_holes (int): Number of holes along the Z-axis.
-        hole_radius (BoltSize | float): The radius of the holes for the bolts.
-        corner_radius (float): Filet radius for the corners of the plate.
+    :param thickness: Thickness of the plate.
+    :param num_x_holes: Number of holes along the X-axis.
+    :param num_y_holes: Number of holes along the Y-axis.
+    :param num_z_holes: Number of holes along the Z-axis.
+    :param hole_radius: The radius of the holes for the bolts.
+    :param corner_radius: Filet radius for the corners of the plate.
     """
 
     def __init__(

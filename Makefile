@@ -30,6 +30,9 @@ lock:
 		--output-file requirements.txt \
 		pyproject.toml
 
+screenshots:
+	python docs/screenshots.py
+
 # Build documentation
 docs:
 	sphinx-build -M html docs docs/_build

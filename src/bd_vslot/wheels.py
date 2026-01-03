@@ -7,11 +7,10 @@ class Wheel(BasePartObject):
     """
     Base class for creating wheels with specified dimensions.
 
-    Args:
-        outer_diameter (float): The outer diameter of the wheel.
-        inner_diameter (float): The diameter of the center hole.
-        outer_thickness (float): Thickness (axially) at the outer edge.
-        inner_thickness (float): Thickness (axially) at the inner edge.
+    :param outer_diameter: The outer diameter of the wheel.
+    :param inner_diameter: The diameter of the center hole.
+    :param outer_thickness: Thickness (axially) at the outer edge.
+    :param inner_thickness: Thickness (axially) at the inner edge.
     """
 
     def __init__(
