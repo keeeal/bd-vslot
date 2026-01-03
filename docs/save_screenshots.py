@@ -1,5 +1,5 @@
-# Requires dev dependencies to be installed:
-# > make install dev=true
+# Requires dev dependencies to be installed (make install dev=true)
+# and the OCP backend must be running (python -m ocp_vscode --backend)
 
 from argparse import ArgumentParser
 from pathlib import Path
