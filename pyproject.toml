@@ -27,6 +27,8 @@ dev = [
   "mypy",
   "pip-tools",
   "pytest",
+  "pyyaml",
+  "types-pyyaml",
 ]
 docs = [
   "sphinx-rtd-theme",
