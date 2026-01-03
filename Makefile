@@ -8,15 +8,13 @@ install:
 	$(if $(dev),pip install -e .[dev])
 	$(if $(docs),pip install -e .[docs])
 
-# Format code
+# Usage: make format [check=true]
 format:
-	isort .
-	black .
+	isort $(if $(check),--check,) .
+	black $(if $(check),--check,) .
 
-# Lint code
+# Type checking
 lint:
-	isort --check .
-	black --check .
 	mypy .
 
 # Run unit tests
@@ -31,6 +29,9 @@ lock:
 		--no-emit-index-url \
 		--output-file requirements.txt \
 		pyproject.toml
+
+screenshots:
+	python docs/save_screenshots.py
 
 # Build documentation
 docs:

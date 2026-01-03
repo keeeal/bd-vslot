@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bd-vslot"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="James Keal", email="james@keal.au" },
 ]
@@ -16,7 +16,8 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 dependencies = [
-  "build123d>=0.5.0",
+  "build123d",
+  "numpy",
 ]
 
 [project.optional-dependencies]
@@ -24,8 +25,11 @@ dev = [
   "black",
   "isort",
   "mypy",
+  "ocp_vscode",
   "pip-tools",
   "pytest",
+  "pyyaml",
+  "types-pyyaml",
 ]
 docs = [
   "sphinx-rtd-theme",

@@ -1,39 +1,51 @@
-from __future__ import annotations
-
 from itertools import product
-from typing import Union
+from typing import Self
 
 import numpy as np
 from build123d import *
 from build123d.build_common import LocationList
-from build123d.topology import tuplify
 from numpy.typing import ArrayLike
 
 from bd_vslot.utils.array import in_bounds
+from bd_vslot.utils.typing import Align2D, Align3D
 
 
-class VSlotProfile(BaseSketchObject):
+class VSlot2020RailProfile(BaseSketchObject):
+    """
+    Used to generate arbitrary shaped profiles for 2020 V-Slot rails.
+
+    The profile is generated based on a 2D array where a True-like value
+    represents the presence of a rail at that grid position. For example,
+    it is possible to create a C-beam profile using the following array:
+
+    .. code-block:: python
+
+        [[ 1,  1 ],
+         [ 1,  0 ],
+         [ 1,  0 ],
+         [ 1,  1 ]]
+
+    Any array position that is True-like and adjacent to a False-like position
+    will have the appropriate slot and cavity features subtracted to create
+    the correct V-Slot profile. True-like positions that are adjacent to other
+    True-like positions will be joined without slots.
+
+    :param array: 2D boolean array representing the rail layout.
+    """
+
     def __init__(
         self,
         array: ArrayLike,
+        *,
         rotation: float = 0,
-        align: Union[Align, tuple[Align, Align]] = Align.CENTER,
+        align: Align2D = None,
         mode: Mode = Mode.ADD,
     ):
         array = np.asarray(array, dtype=bool)
         x, y = array.shape
-        size = 20 * x, 20 * y
-        align = tuplify(align, 2)
-        offset = []
-        for i in range(2):
-            if align[i] == Align.MIN:
-                offset.append(0.0)
-            elif align[i] == Align.CENTER:
-                offset.append(-size[i] / 2)
-            elif align[i] == Align.MAX:
-                offset.append(-size[i])
 
         def _get(i: int, j: int) -> bool:
+            """Get the value at the given indices or False if out of bounds."""
             return in_bounds(array, i, j) and array[i, j]
 
         squares: list[Location] = []
@@ -50,8 +62,10 @@ class VSlotProfile(BaseSketchObject):
                 continue
             if all(map(_get, (i + 1, i, i - 1, i), (j, j + 1, j, j - 1))):
                 continue
-            translation = Vector(20 * i + offset[0], 20 * j + offset[1])
+
+            translation = Vector(20 * i, 20 * j)
             squares.append(Location(translation))
+
             for n, (di, dj) in enumerate(((1, 0), (0, 1), (-1, 0), (0, -1))):
                 location = Location(translation, 90 * n)
                 if _get(i + di, j + dj):
@@ -163,39 +177,54 @@ class VSlotProfile(BaseSketchObject):
         super().__init__(profile.sketch, rotation, align, mode)
 
     @classmethod
-    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> VSlotProfile:
+    def box(cls, num_x_rails: int = 1, num_y_rails: int = 1) -> Self:
+        """
+        Create a box-like V-Slot 2020 rail profile of the given dimensions.
+        """
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         return cls(array)
 
     @classmethod
-    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> VSlotProfile:
+    def c_beam(cls, num_x_rails: int = 4, num_y_rails: int = 2) -> Self:
+        """
+        Create a C-beam V-Slot 2020 rail profile of the given dimensions.
+        """
         array = np.ones((num_x_rails, num_y_rails), dtype=bool)
         array[1:-1, 1:] = False
         return cls(array)
 
 
-class VSlotRail(BasePartObject):
+class VSlot2020Rail(BasePartObject):
+    """
+    A 2020 V-Slot rail.
+
+    :param length: Length of the rail.
+    :param num_x_rails: Number of rails along the X-axis.
+    :param num_y_rails: Number of rails along the Y-axis.
+    :param c_beam: Whether to create a C-beam profile. If False,
+        a box-like profile will be created. Default: False.
+    """
+
     def __init__(
         self,
         length: float,
         num_x_rails: int = 1,
         num_y_rails: int = 1,
         c_beam: bool = False,
+        *,
         rotation: RotationLike = (0, 0, 0),
-        align: Union[Align, tuple[Align, Align, Align]] = Align.CENTER,
+        align: Align3D = None,
         mode: Mode = Mode.ADD,
     ):
-        super().__init__(
-            part=extrude(
-                (
-                    VSlotProfile.c_beam(num_x_rails, num_y_rails)
-                    if c_beam
-                    else VSlotProfile.box(num_x_rails, num_y_rails)
-                ),
-                amount=length,
-                dir=(0, 0, 1),
-            ),
-            rotation=rotation,
-            align=align,
-            mode=mode,
-        )
+        with BuildPart() as rail:
+            with BuildSketch():
+                if c_beam:
+                    VSlot2020RailProfile.c_beam(num_x_rails, num_y_rails)
+                else:
+                    VSlot2020RailProfile.box(num_x_rails, num_y_rails)
+            extrude(amount=length)
+
+            RigidJoint("A", joint_location=Location((0, 0, length), (0, 0, 0)))
+            RigidJoint("B", joint_location=Location((0, 0, 0), (180, 0, 0)))
+
+        super().__init__(rail.part, rotation, align, mode)

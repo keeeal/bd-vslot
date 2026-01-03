@@ -1,0 +1,70 @@
+# Parameters Used for generating test parts and documentation screenshots
+
+Bearing:
+  outer_diameter: 20.0
+  inner_diameter: 10.0
+  thickness: 5.0
+
+Bearing625: {}
+
+Bearing688: {}
+
+Bearing105: {}
+
+VSlot2020SlidingTNut:
+  hole_radius: 2.0
+
+VSlot2020EndCapProfile:
+  num_x_holes: 3
+  num_y_holes: 2
+  hole_radius: 2.0
+  corner_radius: 1.0
+
+VSlot2020EndCap:
+  thickness: 2.0
+  num_x_holes: 3
+  num_y_holes: 2
+  hole_radius: 2.0
+  corner_radius: 1.0
+  chamfer_size: 0.5
+
+BuildPlateProfile:
+  num_x_holes: 3
+  num_y_holes: 2
+  hole_radius: 2.0
+  corner_radius: 1.0
+
+BuildPlate:
+  thickness: 2.0
+  num_x_holes: 3
+  num_y_holes: 2
+  hole_radius: 2.0
+  corner_radius: 1.0
+  chamfer_size: 0.5
+
+LPlate:
+  thickness: 2.0
+  num_x_holes: 4
+  num_y_holes: 3
+  num_z_holes: 2
+  hole_radius: 2.0
+  corner_radius: 1.0
+
+VSlot2020RailProfile:
+  array: [[1,1],[1,1],[1,0],[1,1]]
+
+VSlot2020Rail:
+  length: 100.0
+  num_x_rails: 2
+  num_y_rails: 1
+  c_beam: false
+
+Wheel:
+  outer_diameter: 20.0
+  inner_diameter: 10.0
+  outer_thickness: 5.0
+  inner_thickness: 3.0
+
+VSlot2020Wheel: {}
+
+VSlot2020MiniWheel: {}
