@@ -25,6 +25,7 @@ dev = [
   "black",
   "isort",
   "mypy",
+  "ocp_vscode",
   "pip-tools",
   "pytest",
   "pyyaml",
