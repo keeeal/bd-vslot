@@ -1,13 +1,16 @@
+# Requires dev dependencies to be installed:
+# > make install dev=true
+
 from argparse import ArgumentParser
 from pathlib import Path
 
 import yaml
-from ocp_vscode import save_screenshot, show
+from ocp_vscode import save_screenshot, show  # type: ignore[import-untyped]
 
 from bd_vslot import *
 
 
-def main(
+def save_screenshots(
     config: Path,
     output: Path,
 ):
@@ -28,4 +31,4 @@ if __name__ == "__main__":
         "-c", "--config", type=Path, default=Path("docs/screenshots.yaml")
     )
     parser.add_argument("-o", "--output", type=Path, default=Path("docs/screenshots"))
-    main(**vars(parser.parse_args()))
+    save_screenshots(**vars(parser.parse_args()))
